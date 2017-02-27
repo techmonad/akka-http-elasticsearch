@@ -1,0 +1,1 @@
+# activator-akka-http-elasticsearch
