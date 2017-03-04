@@ -1,5 +1,5 @@
 # activator-akka-http-elasticsearch
- #####This is an activator project for showing case for querying and sending data to elasticsearch using Akka-http and how to write unit tests.
+  This is an activator project for showing case for querying and sending data to elasticsearch using Akka-http and how to write unit tests.
 
 
 ### Getting Started:
