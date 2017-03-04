@@ -26,7 +26,7 @@ trait CatalogueRepository extends JsonHelper with Logging {
     val query = getQuery(params)
     info("Search query: " + query.toString)
     val response = client.prepareSearch(indexName).setQuery(query).execute().actionGet()
-    write(response.getHits.getHits.map(_.sourceAsString()).map(parse(_)))
+    write(response.getHits.getHits.map(doc => parse(doc.sourceAsString())))
   }
 
   private def getQuery(params: Map[String, Any]) = {
