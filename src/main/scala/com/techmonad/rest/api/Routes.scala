@@ -2,11 +2,11 @@ package com.techmonad.rest.api
 
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import com.techmonad.es.ESService
+import com.techmonad.es.CatalogueRepository
 import com.techmonad.json.JsonHelper
 
 trait Routes extends JsonHelper {
-  this: ESService =>
+  this: CatalogueRepository =>
 
   val routes: Route = {
     path("catalogue" / "add") {
@@ -21,7 +21,16 @@ trait Routes extends JsonHelper {
           complete(response)
         }
       }
-    }
+    } ~
+      path("catalogue" / "search") {
+        post {
+          entity(as[String]) { queryParamsJson =>
+            val queryParams = parse(queryParamsJson).extract[Map[String, Any]]
+            complete(searchByQuery(queryParams))
+          }
+
+        }
+      }
   }
 
 }

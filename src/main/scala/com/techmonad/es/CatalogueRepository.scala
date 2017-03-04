@@ -3,29 +3,30 @@ package com.techmonad.es
 import com.techmonad.json.JsonHelper
 import com.techmonad.logger.Logging
 import org.elasticsearch.action.bulk.BulkRequestBuilder
+import org.elasticsearch.client.Client
 import org.elasticsearch.index.query.BoolQueryBuilder
 import org.elasticsearch.index.query.QueryBuilders._
 
 
-trait ESService extends JsonHelper with Logging {
-  this: ESManager =>
+trait CatalogueRepository extends JsonHelper with Logging {
 
-  val DOC_ID = "id"
-  val DOC_TYPE = "type"
+  val client: Client
 
-  def ingest(doc: Map[String, Any]) = ingest(List(doc))
+  val indexName: String
+
+  def ingest(doc: Map[String, Any]): Boolean = ingest(List(doc))
 
   def ingest(docs: List[Map[String, Any]]): Boolean = {
     info("ingesting docs.... " + docs.length)
     val bulkRequest = getBulkRequestBuilder(docs)
-    bulkRequest.execute().actionGet().hasFailures
+    !bulkRequest.execute().actionGet().hasFailures
   }
 
-  def searchByQuery(params: Map[String, Any]): Array[String] = {
+  def searchByQuery(params: Map[String, Any]): String = {
     val query = getQuery(params)
-    info("Search query " + query.toString)
+    info("Search query: " + query.toString)
     val response = client.prepareSearch(indexName).setQuery(query).execute().actionGet()
-    response.getHits.getHits.map(_.source)
+    write(response.getHits.getHits.map(_.sourceAsString()).map(parse(_)))
   }
 
   private def getQuery(params: Map[String, Any]) = {
@@ -38,13 +39,14 @@ trait ESService extends JsonHelper with Logging {
     val bulkRequest = client.prepareBulk()
     docs foreach {
       doc =>
-        val docId = doc(DOC_ID).toString
-        val `type` = doc(DOC_TYPE).toString
+        val docId = doc("id").toString
+        val `type` = doc("type").toString
         bulkRequest.add(client.prepareIndex().setIndex(indexName).setType(`type`)
-          .setId(docId).setSource(write(doc)))
+          .setId(docId).setSource(write(doc - `type`)))
     }
     bulkRequest
   }
+
 
 }
 

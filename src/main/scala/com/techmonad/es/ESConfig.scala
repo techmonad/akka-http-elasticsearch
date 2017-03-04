@@ -3,7 +3,7 @@ package com.techmonad.es
 import org.elasticsearch.client.Client
 
 
-trait ESManager {
+trait ESConfig {
 
   val client: Client
 
