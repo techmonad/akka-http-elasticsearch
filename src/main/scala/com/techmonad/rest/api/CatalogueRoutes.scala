@@ -5,8 +5,9 @@ import akka.http.scaladsl.server.Route
 import com.techmonad.es.CatalogueRepository
 import com.techmonad.json.JsonHelper
 
-trait Routes extends JsonHelper {
+trait CatalogueRoutes extends JsonHelper {
   this: CatalogueRepository =>
+
 
   val routes: Route = {
     path("catalogue" / "add") {
@@ -16,7 +17,7 @@ trait Routes extends JsonHelper {
           val response = if (ingest(record)) {
             "Record added to catalogue successfully"
           } else {
-            "Invalid record "
+            "Invalid catalogue record "
           }
           complete(response)
         }

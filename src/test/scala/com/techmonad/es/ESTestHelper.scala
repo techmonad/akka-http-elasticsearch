@@ -16,7 +16,7 @@ trait ESTestHelper extends Logging {
 
   private val esDataDir = "es-data"
 
-  private val settings = Settings.settingsBuilder()
+ lazy private val settings = Settings.settingsBuilder()
     .put("cluster.name", "elasticsearch-test")
     .put("discovery.zen.ping.multicast.enabled", false)
     .put("http.enabled", false)
@@ -24,8 +24,11 @@ trait ESTestHelper extends Logging {
     .put("path.home", esDataDir)
     .put("local", true)
     .put("client.transport.sniff", false)
-  val node = NodeBuilder.nodeBuilder().settings(settings).node()
-  val client: Client = node.client()
+
+
+  lazy val node = NodeBuilder.nodeBuilder().settings(settings).node()
+
+  lazy val client: Client = node.client()
 
 
   def init() = {
