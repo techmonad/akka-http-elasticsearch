@@ -10,7 +10,8 @@
   $ bin/activator test
   ```
 
-####Elasticsearch Setup
+#### Elasticsearch Setup
+
   i) [Download](https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/zip/elasticsearch/2.4.4/elasticsearch-2.4.4.zip) the Elasticsearch 2.4.4 or latest version  and unzip it.
 
   ii) Run the following command.
@@ -44,7 +45,7 @@
   request:
     
   ```
-  $ curl -XPOST 'localhost:9000/catalogue/search -d '{"author":"martin"}'
+  $ curl -XPOST 'localhost:9000/catalogue/search' -d '{"author":"martin"}'
   
   ```
   response:
