@@ -1,13 +1,13 @@
-# activator-akka-http-elasticsearch
-  This is an activator project for showing case for querying and sending data to elasticsearch using Akka-http and how to write unit tests.
+# akka-http-elasticsearch
+  This is sbt project for showing case for querying and sending data to elasticsearch using Akka-http and how to write unit tests.
 
 
 ### Getting Started:
  Clone and run the unit test:
   ```
-  $ git clone git@github.com:techmonad/activator-akka-http-elasticsearch.git
-  $ cd activator-akka-http-elasticsearch
-  $ bin/activator test
+  $ git clone git@github.com:techmonad/akka-http-elasticsearch.git
+  $ cd  akka-http-elasticsearch
+  $ sbt test
   ```
 
 #### Elasticsearch Setup
@@ -20,7 +20,7 @@
  
 ### Run http server:
  ```
-   $ bin/activator run
+   $ sbt run
 
  ```
 
